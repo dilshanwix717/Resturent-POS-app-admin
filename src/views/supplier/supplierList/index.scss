@@ -1,0 +1,92 @@
+h6 {
+    font-weight: 500;
+}
+
+.btn-create-supplier {
+    width: 200px;
+}
+
+.supplier-table {
+    overflow: hidden;
+
+    .supplier-table-row {
+        cursor: pointer;
+    
+        &:hover {
+            transition: 0.3s ease-out;
+            transform: translateX(5px);
+        }
+    }
+}
+
+.panel-supplier {
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+}
+
+.panel-supplier-popup, .panel-create-supplier-popup, .panel-edit-supplier-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    .panel-supplier, .panel-create-supplier, .panel-edit-supplier {
+      max-width: 90%;
+      width: 600px;
+      overflow-y: auto;
+      max-height: 80%;
+      animation: zoomOut 0.1s ease-out;
+
+        @keyframes zoomOut {
+            0% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }  
+    }
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-icon {
+    cursor: pointer;
+}
+
+.close-icon {
+    cursor: pointer;
+}
+
+.badge {
+    width: 50px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.visibility-icon {
+    cursor: pointer;
+  }

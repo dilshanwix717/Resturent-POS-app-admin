@@ -1,0 +1,132 @@
+h6 {
+    font-weight: 500;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 10px 0;
+  
+    li {
+      margin: 0 5px;
+    }
+  
+    a {
+      color: #007bff;
+      padding: 8px 12px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+  
+      &:hover {
+        background-color: #f1f1f1;
+      }
+    }
+  
+    .active a {
+      background-color: #007bff;
+      color: white;
+      border: 1px solid #007bff;
+    }
+  }
+  
+  .break-me {
+    cursor: default;
+  }
+  
+
+.btn-create-product {
+    width: 200px;
+}
+
+.product-table {
+    overflow: hidden;
+
+    .product-table-row {
+        cursor: pointer;
+    
+        &:hover {
+            transition: 0.3s ease-out;
+            transform: translateX(5px);
+        }
+    }
+}
+
+.panel-product {
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+}
+
+.panel-product-popup, .panel-create-product-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    .panel-product, .panel-create-product {
+      max-width: 90%;
+      width: 600px;
+      overflow-y: auto;
+      max-height: 80%;
+      animation: zoomOut 0.1s ease-out;
+
+        @keyframes zoomOut {
+            0% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }  
+    }
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close-icon {
+    cursor: pointer;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.type-wrapper {
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+
+.remove-item-col {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.edit-icon {
+  cursor: pointer;
+}
+

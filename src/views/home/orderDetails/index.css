@@ -1,0 +1,10 @@
+.custom-search-box {
+    border: 2px solid #27a0d0;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+.custom-search-box:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(229, 9, 20, 0.8);
+}

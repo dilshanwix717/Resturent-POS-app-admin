@@ -1,0 +1,39 @@
+@media print {
+  /* Hide everything except the GRNBill content */
+  body * {
+    visibility: hidden;
+  }
+  
+  .printable-section, .printable-section * {
+    visibility: visible;
+  }
+  
+  .printable-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    page-break-after: always;
+  }
+
+  .printable-section {
+    page-break-before: auto;
+    page-break-after: auto;
+    page-break-inside: avoid;
+    width: 100%;
+  }
+
+  .printable-section table {
+    width: 100%;
+  }
+
+  .printable-section .card-body,
+  .printable-section .card-header,
+  .printable-section .card-footer {
+    padding: 0.5rem;
+  }
+
+  .print-button {
+    display: none;
+  }
+}

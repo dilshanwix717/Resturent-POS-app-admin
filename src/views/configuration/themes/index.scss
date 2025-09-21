@@ -1,0 +1,48 @@
+.panel-theme-popup, .panel-create-theme-popup, .panel-edit-theme-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(2px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+
+    .panel-theme, .panel-create-theme, .panel-edit-theme {
+      max-width: 90%;
+      width: 600px;
+      overflow-y: auto;
+      max-height: 80%;
+      animation: zoomOut 0.1s ease-out;
+
+        @keyframes zoomOut {
+            0% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }  
+    }
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-icon {
+    cursor: pointer;
+}
+
+.close-icon {
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
