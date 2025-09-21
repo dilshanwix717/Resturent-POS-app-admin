@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import { format } from 'date-fns';
-import newRequest from '../../../utils/newRequest.js';
+import newRequest from '../../../utils/newRequest';
 import Chart from './Chart.js';
 
 const Dashboard = () => {
@@ -141,8 +141,8 @@ const Dashboard = () => {
                   <div className="col-9">
                     <h3 className="f-w-300 d-flex align-items-center m-b-0">
                       {/* <i className={`feather ${data.icon} f-30 m-r-5`} /> */}
-                      {data.amount}
-
+                      {/* {data.amount} */}
+                      0
                     </h3>
                   </div>
                 </div>
@@ -163,7 +163,30 @@ const Dashboard = () => {
           </Card>
         </Col>
 
-
+        {/* <Col md={12} xl={12}>
+          <Card className="user-list">
+            <Card.Header>
+              <Card.Title as="h5">Cashier Details</Card.Title>
+            </Card.Header>
+            <Card.Body className="p-0">
+              <Table responsive hover>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Cashier</th>
+                    <th>Sale</th>
+                    <th>Cash</th>
+                    <th>Expenses</th>
+                    <th>Cash in Hand</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </Col> */}
       </Row>
     </React.Fragment>
   );

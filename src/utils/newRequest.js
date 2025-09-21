@@ -1,9 +1,8 @@
 import axios from "axios";
 
 const newRequest = axios.create({
-    baseURL: "https://pos-demo-backend-i56i.onrender.com/api/",
     //baseURL: "https://sepasmocktailbackend.onrender.com/api/",
-    //baseURL: "http://localhost:8081/api/",
+    baseURL: "https://localhost:8081/api/",
     withCredentials: true,
 });
 

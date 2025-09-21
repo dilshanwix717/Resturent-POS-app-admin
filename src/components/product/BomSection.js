@@ -1,9 +1,12 @@
+
 import { Row, Col, Form, Button } from "react-bootstrap"
 import Select from "react-select"
 
 const BomSection = ({
-    // product,
-    // setProduct,
+    product,
+    setProduct,
+    deviceLocation,
+    setDeviceLocation,
     addedItems,
     setAddedItems,
     selectedItem,
@@ -79,7 +82,38 @@ const BomSection = ({
 
     return (
         <Form.Group className="mb-3" as={Row} controlId="formHorizontalBOMManual">
-            <h6>Bill of Materials</h6>
+            <h6>BOM (Bill of Materiel) Manual</h6>
+
+            <div className="size-select-wrapper mb-4">
+                <Form.Control
+                    as="select"
+                    value={product.size || ""}
+                    onChange={(e) => setProduct((prevProduct) => ({ ...prevProduct, size: e.target.value }))}
+                >
+                    <option value="">Select Size</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Regular">Regular</option>
+                    <option value="Large">Large</option>
+                </Form.Control>
+            </div>
+
+            <div className="size-select-wrapper mb-4">
+                <Form.Control
+                    as="select"
+                    value={deviceLocation || ""}
+                    onChange={(e) => {
+                        const selectedValue = e.target.value
+                        setProduct((prevProduct) => ({ ...prevProduct, deviceLocation: selectedValue }))
+                        setDeviceLocation(selectedValue)
+                    }}
+                >
+                    <option value="">Select Kitchen Location</option>
+                    <option value="Hot Kitchen">Hot Kitchen</option>
+                    <option value="Cold Kitchen">Cold Kitchen</option>
+                    <option value="Bar">Bar</option>
+                </Form.Control>
+            </div>
 
             <Col>
                 <Row className="add-items-area">
@@ -160,3 +194,4 @@ const BomSection = ({
 }
 
 export default BomSection
+

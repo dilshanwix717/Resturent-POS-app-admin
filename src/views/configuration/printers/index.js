@@ -130,51 +130,51 @@ const Printers = () => {
       try {
         const response = await newRequest.get('/companies');
         const companyData = response.data;
-
+  
         const enabledCompanies = companyData.filter(company => company.toggle === 'enable');
-
+  
         const formattedOptions = enabledCompanies.map(company => ({
           value: company.companyId,
           label: company.companyName.trim(),
         }));
-
+  
         setCompanyOptions(formattedOptions);
       } catch (error) {
         console.error('Error fetching companies:', error);
       }
     };
-
+  
     fetchCompany();
   }, []);
-
+  
   useEffect(() => {
     const fetchShops = async () => {
       try {
         const response = await newRequest.get('/shops');
         const shopData = response.data;
-
+  
         setShops(shopData);
-
+  
         let filteredShops = shopData.filter(shop => shop.toggle === 'enable');
-
+  
         if (selectedCompany) {
           filteredShops = filteredShops.filter(shop => shop.companyId === selectedCompany.value);
         }
-
+  
         const formattedOptions = filteredShops.map(shop => ({
           value: shop.shopId,
           label: shop.shopName.trim(),
         }));
-
+  
         setShopOptions(formattedOptions);
       } catch (error) {
         console.error('Error fetching shops:', error);
       }
     };
-
+  
     fetchShops();
   }, [selectedCompany]);
-
+  
 
   const handleCompanyChange = (selectedOption) => {
     setSelectedCompany(selectedOption);
@@ -201,12 +201,8 @@ const Printers = () => {
   const deviceLocationOptions = [
     { value: 'Cold Kitchen', label: 'Cold Kitchen' },
     { value: 'Hot Kitchen', label: 'Hot Kitchen' },
-<<<<<<< HEAD
-    { value: 'Bar', label: 'Bar' }
-=======
     { value: 'Bar', label: 'Bar' },
     { value: 'Cashier', label: 'Cashier' },
->>>>>>> main
   ];
 
   const [devices, setDevices] = useState([]);
@@ -218,19 +214,19 @@ const Printers = () => {
     const userShopId = storedUser.shopId;
 
     newRequest.get('/devices')
-      .then(response => {
-        let filteredDevices = response.data;
-        // console.error('Error fetching GRNs data:', filteredDevices);
+    .then(response => {
+      let filteredDevices = response.data;
+      // console.error('Error fetching GRNs data:', filteredDevices);
+      
+      if (userRole === 'admin') {
+        filteredDevices = filteredDevices.filter(devices => devices.companyId === userCompanyId && devices.shopId === userShopId);
+      }
 
-        if (userRole === 'admin') {
-          filteredDevices = filteredDevices.filter(devices => devices.companyId === userCompanyId && devices.shopId === userShopId);
-        }
-
-        setDevices(filteredDevices);
-      })
-      .catch(error => {
-        console.error('Error fetching GRNs data:', error);
-      });
+      setDevices(filteredDevices);
+    })
+    .catch(error => {
+      console.error('Error fetching GRNs data:', error);
+    });
   }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -246,9 +242,9 @@ const Printers = () => {
   // Filter devices based on the search query
   const filteredDevices = devices.filter(device =>
     (device.deviceId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      device.deviceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      device.deviceLocation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      device.deviceIPaddress.toLowerCase().includes(searchQuery.toLowerCase())) &&
+    device.deviceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    device.deviceLocation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    device.deviceIPaddress.toLowerCase().includes(searchQuery.toLowerCase())) &&
     device.shopId === userShop
   );
 
@@ -290,7 +286,7 @@ const Printers = () => {
                   Create Device
                 </Button>
               </Col>
-
+            
               <Col>
                 <Form.Control
                   type="text"
@@ -339,13 +335,13 @@ const Printers = () => {
                 Previous
               </Button>
               {Array.from({ length: totalPages }, (_, index) => (
-                <Button
-                  key={index + 1}
-                  variant={currentPage === index + 1 ? 'primary' : 'light'}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </Button>
+                  <Button
+                      key={index + 1}
+                      variant={currentPage === index + 1 ? 'primary' : 'light'}
+                      onClick={() => setCurrentPage(index + 1)}
+                  >
+                      {index + 1}
+                  </Button>
               ))}
               <Button variant="light" onClick={handleNextPage} disabled={currentPage === totalPages}>
                 Next
@@ -373,7 +369,7 @@ const Printers = () => {
                   <Col sm={9}>
                     <Select
                       name="companyId"
-                      value={userRole === 'admin'
+                      value={userRole === 'admin' 
                         ? companyOptions.find(option => option.value === userCompanyId)
                         : companyOptions.find(option => option.value === deviceData.companyId)
                       }
@@ -390,7 +386,7 @@ const Printers = () => {
                   <Col sm={9}>
                     <Select
                       name="shopId"
-                      value={userRole === 'admin'
+                      value={userRole === 'admin' 
                         ? shopOptions.find(option => option.value === userShopId)
                         : shopOptions.find(option => option.value === deviceData.shopId)
                       }
@@ -401,7 +397,7 @@ const Printers = () => {
                     />
                   </Col>
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3 w-75" as={Row} controlId="formHorizontalSupplier">
                   <Form.Label column sm={3}>Device Type</Form.Label>
                   <Col sm={9}>
@@ -415,7 +411,7 @@ const Printers = () => {
                     />
                   </Col>
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3 w-75" as={Row} controlId="formHorizontalRemarks">
                   <Form.Label column sm={3}>Device Name</Form.Label>
                   <Col sm={9}>
@@ -427,7 +423,7 @@ const Printers = () => {
                     />
                   </Col>
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3 w-75" as={Row} controlId="formHorizontalSupplier">
                   <Form.Label column sm={3}>Device Location</Form.Label>
                   <Col sm={9}>
@@ -441,7 +437,7 @@ const Printers = () => {
                     />
                   </Col>
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3 w-75" as={Row} controlId="formHorizontalRemarks">
                   <Form.Label column sm={3}>IP Address</Form.Label>
                   <Col sm={9}>
@@ -453,7 +449,7 @@ const Printers = () => {
                     />
                   </Col>
                 </Form.Group>
-
+    
                 <Form.Group className="mb-3 w-75" as={Row} controlId="formHorizontalRemarks">
                   <Form.Label column sm={3}>Port</Form.Label>
                   <Col sm={9}>
@@ -466,7 +462,7 @@ const Printers = () => {
                   </Col>
                 </Form.Group>
               </Form>
-
+    
               <Form.Group className="mb-3" as={Row}>
                 <Col sm={{ span: 10, offset: 0 }}>
                   <Button onClick={handleSubmit}>Submit</Button>

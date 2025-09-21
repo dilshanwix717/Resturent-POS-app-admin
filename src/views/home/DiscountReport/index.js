@@ -47,7 +47,7 @@ const DiscountReport = () => {
       return (
         item.orderNumber.toLowerCase().includes(query) ||
         item.productId.toLowerCase().includes(query) ||
-        item.shopId.toLowerCase().includes(query) ||
+        item.authorizer.id.toLowerCase().includes(query) ||
         item.authorizer.name.toLowerCase().includes(query) ||
         date.includes(query)
       );
@@ -119,15 +119,15 @@ const DiscountReport = () => {
           <table class="table">
             <thead>
               <tr>
-                <th>#</th>
+                <th>No</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Shop ID</th>
-                <th>Authorizer Name</th>
                 <th>Order ID</th>
-                <th>Product Name</th>
-                <th style="text-align: right;">Selling Price</th>
-                <th style="text-align: right;">Discount Amount</th>
+                <th>Product ID</th>
+                <th>Selling Price</th>
+                <th>Discount Amount</th>
+                <th>Authorizer ID</th>
+                <th>Authorizer Name</th>
               </tr>
             </thead>
             <tbody>
@@ -136,12 +136,12 @@ const DiscountReport = () => {
                   <th scope="row">${index + 1}</th>
                   <td>${formatDate(item.date)}</td>
                   <td>${formatTime(item.date)}</td>
-                  <td>${item.shopId}</td>
-                  <td>${item.authorizer.name}</td>
                   <td>${item.orderNumber}</td>
-                  <td>${item.productName}</td>
+                  <td>${item.productId}</td>
                   <td style="text-align: right;">${item.sellingPrice.toFixed(2)}</td>
                   <td style="text-align: right;">${item.discountAmount.toFixed(2)}</td>
+                  <td>${item.authorizer.id}</td>
+                  <td>${item.authorizer.name}</td>
                 </tr>
               `).join('')}
             </tbody>
@@ -161,27 +161,27 @@ const DiscountReport = () => {
         index: (index + 1),
         date: formatDate(item.date),
         time: formatTime(item.date),
-        shopId: item.shopId,
-        authorizerName: item.authorizer.name,
         orderNumber: item.orderNumber,
         productId: item.productId,
         sellingPrice: item.sellingPrice.toFixed(2),
-        discountAmount: item.discountAmount.toFixed(2)
+        discountAmount: item.discountAmount.toFixed(2),
+        authorizerId: item.authorizer.id,
+        authorizerName: item.authorizer.name
       };
     });
 
     const content = [
-      ["#", "Date", "Time", "Shop ID", "Authorizer Name", "Order ID", "Product ID", "Selling Price", "Discount Amount"],
+      ["#", "Date", "Time", "Order ID", "Product ID", "Selling Price", "Discount Amount", "Authorizer ID", "Authorizer Name"],
       ...modifiedData.map(row => [
         row.index,
         row.date,
         row.time,
-        row.shopId,
-        row.authorizerName,
         row.orderNumber,
         row.productId,
         row.sellingPrice,
-        row.discountAmount
+        row.discountAmount,
+        row.authorizerId,
+        row.authorizerName
       ])
     ];
 
@@ -209,7 +209,7 @@ const DiscountReport = () => {
                 <Col md={6}>
                   <Form.Control
                     type="text"
-                    placeholder="Search by Order ID, Product ID, Shop ID, Authorizer Name, or Date"
+                    placeholder="Search by Order ID, Product ID, Authorizer ID, Authorizer Name, or Date"
                     onChange={handleSearch}
                     value={searchQuery}
                   />
@@ -235,10 +235,10 @@ const DiscountReport = () => {
                     <th>#</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Shop ID</th>
+                    <th>Authorizer ID</th>
                     <th>Authorizer Name</th>
                     <th>Order ID</th>
-                    <th>Product Name</th>
+                    <th>Product ID</th>
                     <th style={{ textAlign: 'right' }}>Selling Price</th>
                     <th style={{ textAlign: 'right' }}>Discount Amount</th>
                   </tr>
@@ -249,10 +249,10 @@ const DiscountReport = () => {
                       <th scope="row">{indexOfFirstItem + index + 1}</th>
                       <td>{formatDate(item.date)}</td>
                       <td>{formatTime(item.date)}</td>
-                      <td>{item.shopId}</td>
+                      <td>{item.authorizer.id}</td>
                       <td>{item.authorizer.name}</td>
                       <td>{item.orderNumber}</td>
-                      <td>{item.productName}</td>
+                      <td>{item.productId}</td>
                       <td style={{ textAlign: 'right' }}>{item.sellingPrice.toFixed(2)}</td>
                       <td style={{ textAlign: 'right' }}>{item.discountAmount.toFixed(2)}</td>
                     </tr>

@@ -46,7 +46,6 @@ const routes = [
       { exact: 'true', path: '/salesProfit', element: lazy(() => import('./views/home/salesProfit')) },
       { exact: 'true', path: '/inventoryReport', element: lazy(() => import('./views/home/InventoryReport')) },
       { exact: 'true', path: '/discountReport', element: lazy(() => import('./views/home/DiscountReport')) },
-      { exact: 'true', path: '/serviceChargeReport', element: lazy(() => import('./views/home/ServiceChargeReport')) },
       { exact: 'true', path: '/orderDetails', element: lazy(() => import('./views/home/orderDetails')) },
       { exact: 'true', path: '/salesProductWise', element: lazy(() => import('./views/home/salesProductWise')) },
       { exact: 'true', path: '/profitLossReport', element: lazy(() => import('./views/home/profitLossReport')) },
@@ -90,8 +89,6 @@ const routes = [
       { exact: 'true', path: '/tables/bootstrap', element: lazy(() => import('./views/tables/BootstrapTable')) },
       { exact: 'true', path: '/charts/nvd3', element: lazy(() => import('./views/charts/nvd3-chart')) },
       { exact: 'true', path: '/sample-page', element: lazy(() => import('./views/extra/SamplePage')) },
-      { exact: 'true', path: '/access', element: lazy(() => import('./views/configuration/Access')) },
-
     ],
   },
 ];

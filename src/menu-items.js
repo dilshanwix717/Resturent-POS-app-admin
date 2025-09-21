@@ -23,7 +23,6 @@ const menuItems = {
             { id: 'orderDetails', title: 'Order Details', type: 'item', url: '/orderDetails', visible: role === 'superAdmin' },
             { id: 'inventoryReport', title: 'Inventory Report', type: 'item', url: '/inventoryReport', visible: role === 'superAdmin' },
             { id: 'discountReport', title: 'Discount Report', type: 'item', url: '/discountReport', visible: role === 'superAdmin' },
-            { id: 'serviceChargeReport', title: 'Service Charge Report', type: 'item', url: '/serviceChargeReport', visible: role === 'superAdmin' },
 
           ]
         },
@@ -73,7 +72,6 @@ const menuItems = {
             { id: 'printers', title: 'Printers', type: 'item', url: '/printers', visible: role === 'superAdmin' || role === 'admin' },
             { id: 'unitOfMaterial', title: 'Unit of Material', type: 'item', url: '/unitOfMaterial', visible: role === 'superAdmin' || role === 'stockManager' },
             { id: 'themes', title: 'Themes', type: 'item', url: '/themes', visible: role === 'superAdmin' },
-            { id: 'access', title: 'Access', type: 'item', url: '/access', visible: role === 'superAdmin' || role === 'admin' },
           ]
         },
       ]

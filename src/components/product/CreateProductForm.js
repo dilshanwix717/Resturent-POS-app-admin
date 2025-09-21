@@ -44,6 +44,7 @@ const CreateProductForm = ({
   const [qty, setQty] = useState("")
   const [filteredShops, setFilteredShops] = useState([])
   const [filteredCategories, setFilteredCategories] = useState([])
+  // Only keep the requiresGRN state - hasRawMaterials will be derived
   const [requiresGRN, setRequiresGRN] = useState(false)
 
   const panelCreateProductRef = useRef(null)
@@ -57,13 +58,6 @@ const CreateProductForm = ({
       setFilteredShops(filteredActiveShops.filter((shop) => shop.companyId === currentUser.companyId))
     }
   }, [userRole, companies, categories, currentUser.companyId, filteredActiveShops])
-
-  // Clear added items when requiresGRN is toggled for Finished Good products
-  useEffect(() => {
-    if (requiresGRN && selectedTypes.includes("Finished Good")) {
-      setAddedItems([])
-    }
-  }, [requiresGRN, selectedTypes])
 
   const handleChange = (e) => setProduct((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   const handleProductNameChange = (selectedOption) => setProductName(selectedOption ? selectedOption.label.split(" - ")[0] : "")
@@ -107,8 +101,9 @@ const CreateProductForm = ({
         items: addedItems,
         userId: currentUser.userId,
         shopId: selectedShops.length > 0 ? selectedShops[0].value : null, // Using first shop as default for logging
+        // Include the new fields
         requiresGRN,
-        hasRawMaterials: hasRawMaterials,
+        hasRawMaterials: hasRawMaterials, // Determined based on whether they added items
       })
       console.log("Product created successfully!")
       window.location.reload()
@@ -156,6 +151,7 @@ const CreateProductForm = ({
                 <Form.Label column sm={3}>PLU</Form.Label>
                 <Col sm={9}><Form.Control name="pluCode" type="text" onChange={handleChange} required /></Col>
               </Form.Group>
+
 
               <Form.Group className="mb-3" as={Row}>
                 <Form.Label column sm={3}>Company</Form.Label>
@@ -218,12 +214,27 @@ const CreateProductForm = ({
                   />
                 </Col>
               </Form.Group>
-            </div>
 
+            </div>
             {/* Product Type Section */}
             <div className="type-wrapper mb-4">
               <Form.Group className="mt-3" as={Row} controlId="formGridState">
-
+                <Form.Group className="mb-3" as={Row}>
+                  <Form.Label column sm={3}>Tracking Options</Form.Label>
+                  <Col sm={9}>
+                    <Form.Check
+                      className="mt-2"
+                      type="checkbox"
+                      id="requiresGRN"
+                      label="Requires GRN Tracking"
+                      checked={requiresGRN}
+                      onChange={(e) => setRequiresGRN(e.target.checked)}
+                    />
+                    <Form.Text className="text-muted">
+                      Enable if this product requires Goods Receipt Note tracking
+                    </Form.Text>
+                  </Col>
+                </Form.Group>
 
                 <Form.Group className="mb-3" as={Row}>
                   <Col lg={3} md={3} sm={3}>
@@ -246,96 +257,36 @@ const CreateProductForm = ({
                   </Col>
                 </Form.Group>
 
-                <Form.Group className="mb-3" as={Row}>
-                  <Form.Label column sm={3}>Tracking Options</Form.Label>
-                  <Col sm={9}>
-                    <Form.Check
-                      className="mt-2"
-                      type="checkbox"
-                      id="requiresGRN"
-                      label="Requires GRN Tracking"
-                      checked={requiresGRN}
-                      onChange={(e) => setRequiresGRN(e.target.checked)}
-                    />
-                    <Form.Text className="text-muted">
-                      Enable if this product requires Goods Receipt Note tracking
-                    </Form.Text>
-                  </Col>
-                </Form.Group>
-
-                {/* BOM Section for Finished Good */}
-                {selectedTypes.includes("Finished Good") && (
+                {/* BOM Section - Only show for WIP or Finished Good */}
+                {(selectedTypes.includes("WIP") || selectedTypes.includes("Finished Good")) && (
                   <Form.Group className="mb-3" as={Row}>
                     <Col lg={3} md={3} sm={3}>
-                      <Form.Label>Product Configuration</Form.Label>
+                      <Form.Label>Bill of Materials</Form.Label>
                     </Col>
                     <Col lg={9} md={9} sm={9}>
-                      {/* Size and Kitchen Location - Always available */}
-                      <div className="size-select-wrapper mb-3">
-                        <Form.Label>Size</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={product.size || ""}
-                          onChange={(e) => setProduct((prevProduct) => ({ ...prevProduct, size: e.target.value }))}
-                        >
-                          <option value="">Select Size</option>
-                          <option value="Small">Small</option>
-                          <option value="Medium">Medium</option>
-                          <option value="Regular">Regular</option>
-                          <option value="Large">Large</option>
-                        </Form.Control>
-                      </div>
-
-                      <div className="kitchen-select-wrapper mb-3">
-                        <Form.Label>Kitchen Location</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={deviceLocation || ""}
-                          onChange={(e) => {
-                            const selectedValue = e.target.value
-                            setProduct((prevProduct) => ({ ...prevProduct, deviceLocation: selectedValue }))
-                            setDeviceLocation(selectedValue)
-                          }}
-                        >
-                          <option value="">Select Kitchen Location</option>
-                          <option value="Hot Kitchen">Hot Kitchen</option>
-                          <option value="Cold Kitchen">Cold Kitchen</option>
-                          <option value="Bar">Bar</option>
-                        </Form.Control>
-                      </div>
-
-                      {/* Only show BOM if GRN is not required */}
-                      {!requiresGRN ? (
-                        <div>
-                          <p className="text-muted mb-3">
-                            Add raw materials that make up this product. Adding items will automatically set this product as having raw materials.
-                          </p>
-                          <BomSection
-                            product={product}
-                            setProduct={setProduct}
-                            deviceLocation={deviceLocation}
-                            setDeviceLocation={setDeviceLocation}
-                            addedItems={addedItems}
-                            setAddedItems={setAddedItems}
-                            selectedItem={selectedItem}
-                            setSelectedItem={setSelectedItem}
-                            qty={qty}
-                            setQty={setQty}
-                            filteredRawProducts={filteredRawProducts}
-                            uoms={uoms}
-                            products={products}
-                          />
-                          {hasRawMaterials && (
-                            <div className="mt-2 alert alert-info">
-                              <small>
-                                Raw materials added: {addedItems.length}. This product will be marked as having raw materials.
-                              </small>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="alert alert-warning mt-3">
-                          <small>Raw materials cannot be assigned when GRN tracking is enabled.</small>
+                      <p className="text-muted mb-3">
+                        Add raw materials that make up this product. Adding items will automatically set this product as having raw materials.
+                      </p>
+                      <BomSection
+                        product={product}
+                        setProduct={setProduct}
+                        deviceLocation={deviceLocation}
+                        setDeviceLocation={setDeviceLocation}
+                        addedItems={addedItems}
+                        setAddedItems={setAddedItems}
+                        selectedItem={selectedItem}
+                        setSelectedItem={setSelectedItem}
+                        qty={qty}
+                        setQty={setQty}
+                        filteredRawProducts={filteredRawProducts}
+                        uoms={uoms}
+                        products={products}
+                      />
+                      {hasRawMaterials && (
+                        <div className="mt-2 alert alert-info">
+                          <small>
+                            Raw materials added: {addedItems.length}. This product will be marked as having raw materials.
+                          </small>
                         </div>
                       )}
                     </Col>
@@ -343,7 +294,7 @@ const CreateProductForm = ({
                 )}
 
                 {/* Raw Material without BOM info */}
-                {(selectedTypes.includes("Raw Material") && !selectedTypes.includes("Finished Good")) && (
+                {(selectedTypes.includes("Raw Material") && !selectedTypes.includes("WIP") && !selectedTypes.includes("Finished Good")) && (
                   <Form.Group className="mb-3" as={Row}>
                     <Col lg={3} md={3} sm={3}>
                       <Form.Label>Note</Form.Label>
@@ -357,6 +308,7 @@ const CreateProductForm = ({
                 )}
               </Form.Group>
             </div>
+
 
             {/* Submit Button */}
             <Form.Group className="mb-3" as={Row}>
